@@ -1,59 +1,103 @@
-import 'package:fa_smart_contact/commons/Strings.dart';
-import 'package:fa_smart_contact/pages/ContactPage.dart';
-import 'package:fa_smart_contact/pages/FavouritePage.dart';
-import 'package:fa_smart_contact/pages/PersonalPage.dart';
+import 'package:fa_smart_contact/commons/colors.dart';
+import 'package:fa_smart_contact/commons/strings.dart';
+import 'package:fa_smart_contact/pages/add_contact_page.dart';
+import 'package:fa_smart_contact/pages/contact_page.dart';
+import 'package:fa_smart_contact/pages/favourite_page.dart';
+import 'package:fa_smart_contact/pages/personal_page.dart';
+import 'package:fa_smart_contact/pages/scan_qr_code_page.dart';
 import 'package:flutter/material.dart';
+import 'package:qrscan/qrscan.dart' as Scanner;
 
 class HomePage extends StatefulWidget {
+  int tabSlect = 0;
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _tabSelect = 0;
-  String _title = StringApp.app_title;
-  final List<Widget> _listTab = <Widget>[
-    ContactPage(),
-    FavouritePage(),
-    PersonalPage()
-  ];
-  final List<String> _listTitle = <String>[
-    StringApp.tab_contact,
-    StringApp.tab_favourite,
-    StringApp.tab_personal
-  ];
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    tabController.addListener(() {
+      setState(() {
+        widget.tabSlect = tabController.index;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  final _keySoaffold = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_title),
-        centerTitle: true,
-      ),
-      body: _listTab.elementAt(_tabSelect),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.contacts), title: Text(StringApp.tab_contact)),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), title: Text(StringApp.tab_favourite)),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person), title: Text(StringApp.tab_personal)),
-        ],
-        currentIndex: _tabSelect,
-        selectedItemColor: Colors.green,
-        onTap: _onSelectTap,
-        selectedIconTheme: IconThemeData(
-          size: 28,
-          color: Colors.green[600]
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        key: _keySoaffold,
+        appBar: AppBar(
+          actions: <Widget>[
+            widget.tabSlect == 0
+                ? IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddContactPage(
+                                    person: false,
+                                  )));
+                    })
+                : Text(""),
+            widget.tabSlect == 0
+                ? IconButton(
+                    icon: Icon(Icons.scanner),
+                    onPressed: () {
+                      _scanQR();
+                    })
+                : Text(""),
+          ],
+          title: Text(StringApp.app_title),
+          bottom: TabBar(
+            controller: tabController,
+            tabs: <Widget>[
+              Tab(
+                child: Text(StringApp.tab_contact),
+                //child: Icon(Icons.people),
+              ),
+              Tab(
+                child: Text(StringApp.tab_favourite),
+                //child: Icon(Icons.favorite),
+              ),
+              Tab(
+                child: Text(StringApp.tab_personal),
+                // child: Icon(Icons.person),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          controller: tabController,
+          children: <Widget>[ContactPage(), FavouritePage(), PersonalPage()],
         ),
       ),
     );
   }
 
-  void _onSelectTap(int index) {
-    setState(() {
-      _tabSelect = index;
-      _title = _listTitle.elementAt(index);
-    });
+  Future _scanQR() async {
+    try {
+      String data = await Scanner.scan();
+      _keySoaffold.currentState.showSnackBar(SnackBar(content: Text(data)));
+      print(data);
+    } catch (ex) {
+      print(ex);
+    }
   }
 }
