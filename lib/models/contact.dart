@@ -1,0 +1,167 @@
+class Contact {
+  int _id;
+  String _name;
+  DateTime _birthday;
+  int _gender; //male: 0, famale: 1
+  String _address, _phone, _email;
+  String _facebook, _zalo, _youtube, _twitter, _telegram, _instagram, _linkedin, _tumblr; //social by username
+  String _gusto;
+  int _favourite;
+  int _person;
+
+  String get instagram => _instagram;
+
+  set instagram(String value) {
+    _instagram = value;
+  }
+
+  int get person => _person;
+
+  set person(int value) {
+    _person = value;
+  }
+
+  Contact(
+      this._id,
+      this._name,
+      this._birthday,
+      this._gender,
+      this._address,
+      this._phone,
+      this._email,
+      this._facebook,
+      this._zalo,
+      this._youtube,
+      this._twitter,
+      this._telegram,
+      this._instagram,
+      this._linkedin,
+      this._tumblr,
+      this._gusto,
+      this._favourite,
+      this._person);
+
+  Map<String, String> toMap() {
+    return {
+      //'id': _id.toString(),
+      'name': _name.toString(),
+      'birthday': _birthday.toLocal().toString().split(' ')[0],
+      'gender': _gender.toString(),
+      'address': _address.toString(),
+      'phone': _phone.toString(),
+      'email': _email.toString(),
+      'facebook': _facebook.toString(),
+      'zalo': _zalo.toString(),
+      'youtube': _youtube.toString(),
+      'twitter': _twitter.toString(),
+      'telegram': _telegram.toString(),
+      'instagram': _instagram.toString(),
+      'linkedin':_linkedin.toString(),
+      'tumblr':_tumblr.toString(),
+      'gusto': _gusto.toString(),
+      'favourite': _favourite.toString(),
+      'person': _person.toString()
+    };
+  }
+
+  @override
+  String toString() {
+    return '{id: $_id, name: $_name, birthday: ${_birthday.toUtc().toString().split(' ')[0]}, gender: $_gender, address: $_address, phone: $_phone, email: $_email, facebook: $_facebook, zalo: $_zalo, youtube: $_youtube, twitter: $_twitter, telegram: $_telegram,instagram: $_instagram,linkedin: $_linkedin, tumblr: $_tumblr, gusto: $_gusto, favourite: $_favourite, person: $_person}';
+  }
+
+  String get gusto => _gusto;
+
+  set gusto(String value) {
+    _gusto = value;
+  }
+
+  int get favourite => _favourite;
+
+  set favourite(int value) {
+    _favourite = value;
+  }
+
+  String get telegram => _telegram;
+
+  set telegram(String value) {
+    _telegram = value;
+  }
+
+  String get twitter => _twitter;
+
+  set twitter(String value) {
+    _twitter = value;
+  }
+
+  String get youtube => _youtube;
+
+  set youtube(String value) {
+    _youtube = value;
+  }
+
+  String get zalo => _zalo;
+
+  set zalo(String value) {
+    _zalo = value;
+  }
+
+  String get facebook => _facebook;
+
+  set facebook(String value) {
+    _facebook = value;
+  }
+
+  String get email => _email;
+
+  set email(String value) {
+    _email = value;
+  }
+
+  String get phone => _phone;
+
+  set phone(String value) {
+    _phone = value;
+  }
+
+  String get address => _address;
+
+  set address(String value) {
+    _address = value;
+  }
+
+  int get gender => _gender;
+
+  set gender(int value) {
+    _gender = value;
+  }
+
+  DateTime get birthday => _birthday;
+
+  set birthday(DateTime value) {
+    _birthday = value;
+  }
+
+  String get name => _name;
+
+  set name(String value) {
+    _name = value;
+  }
+
+  int get id => _id;
+
+  set id(int value) {
+    _id = value;
+  }
+
+  String get linkedin => _linkedin;
+
+  set linkedin(String value) {
+    _linkedin = value;
+  }
+
+  String get tumblr => _tumblr;
+
+  set tumblr(String value) {
+    _tumblr = value;
+  }
+}
