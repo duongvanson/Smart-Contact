@@ -1,9 +1,11 @@
 import 'package:fa_smart_contact/commons/colors.dart';
+import 'package:fa_smart_contact/commons/database.dart';
 import 'package:fa_smart_contact/commons/sizes.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class DetailContactPage extends StatefulWidget {
   Contact contact;
@@ -11,8 +13,10 @@ class DetailContactPage extends StatefulWidget {
   Color iconColor = Colors.grey;
 
   DetailContactPage({this.contact});
+
   List<Widget> listSocial = List();
   List<Widget> listDetail = List();
+
   @override
   _DetailContactPageState createState() => _DetailContactPageState();
 }
@@ -28,9 +32,12 @@ class _DetailContactPageState extends State<DetailContactPage> {
     super.initState();
   }
 
+  final _keySoaffold = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _keySoaffold,
       appBar: AppBar(
         actions: <Widget>[
           MaterialButton(
@@ -52,7 +59,13 @@ class _DetailContactPageState extends State<DetailContactPage> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[_layoutTop(), _layoutInfo(), _layoutSocial(), _layoutDetail(), _buttonDelete()],
+          children: <Widget>[
+            _layoutTop(),
+            _layoutInfo(),
+            _layoutSocial(),
+            _layoutDetail(),
+            _buttonDelete()
+          ],
         ),
       ),
     );
@@ -74,7 +87,28 @@ class _DetailContactPageState extends State<DetailContactPage> {
           ),
           IconButton(
             icon: widget.iconFavourite,
-            onPressed: () {},
+            onPressed: () async {
+              print("Change");
+              final _fav = widget.contact.favourite;
+              // ignore: unrelated_type_equality_checks
+              if (await DatabaseApp.setFavourite(widget.contact.id,
+                  widget.contact.favourite == 1 ? false : true)) {
+                setState(() {
+                  widget.contact.favourite = _fav == 0 ? 1 : 0;
+                  widget.iconFavourite = widget.contact.favourite == 1
+                      ? Icon(Icons.star)
+                      : Icon(Icons.star_border);
+                  widget.iconColor = widget.contact.favourite == 1
+                      ? Colors.orange
+                      : Colors.grey;
+                });
+                _keySoaffold.currentState.showSnackBar(SnackBar(
+                  backgroundColor: ColorApp.main_color,
+                    content: widget.contact.favourite == 1
+                        ? Text(StringApp.favourite_on)
+                        : Text(StringApp.favourite_off)));
+              }
+            },
             color: widget.iconColor,
           )
         ],
@@ -107,7 +141,9 @@ class _DetailContactPageState extends State<DetailContactPage> {
           children: <Widget>[
             _title(StringApp.title_contact),
             _phone(),
-            widget.contact.email.isNotEmpty?_line(StringApp.email, widget.contact.email):SizedBox(),
+            widget.contact.email.isNotEmpty
+                ? _line(StringApp.email, widget.contact.email)
+                : SizedBox(),
             _line(StringApp.gusto, widget.contact.gusto)
           ],
         ));
@@ -139,14 +175,18 @@ class _DetailContactPageState extends State<DetailContactPage> {
               icon: Icon(
                 Icons.call,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                launcher.launch("tel: ${widget.contact.phone}");
+              }),
           IconButton(
               iconSize: StyleApp.icon_size,
               color: Colors.orange,
               icon: Icon(
                 Icons.message,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                launcher.launch("sms: ${widget.contact.phone}");
+              }),
         ],
       ),
     );
@@ -154,6 +194,7 @@ class _DetailContactPageState extends State<DetailContactPage> {
 
   Widget _line(String title, String content) {
     return ListTile(
+      dense: true,
       title: Text(
         title,
         style: StyleApp.style_title_line,
@@ -162,22 +203,67 @@ class _DetailContactPageState extends State<DetailContactPage> {
         content,
         style: StyleApp.style_content_line,
       ),
-      onTap: (){
-      },
+    );
+  }
+
+  Widget _lineSocial(String social, String username) {
+    Image img;
+    switch (social) {
+      case "Facebook":
+        img = Image.asset(
+          'images/facebook.png',
+          width: StyleApp.icon_size,
+        );
+        break;
+      case "Zalo":
+        img = Image.asset('images/zalo.png', width: StyleApp.icon_size);
+        break;
+      case "Instagram":
+        img = Image.asset('images/instagram.png', width: StyleApp.icon_size);
+        break;
+      case "Linkedin":
+        img = Image.asset('images/linkedin.png', width: StyleApp.icon_size);
+        break;
+      case "Telegram":
+        img = Image.asset('images/telegram.png', width: StyleApp.icon_size);
+        break;
+      case "Tumblr":
+        img = Image.asset('images/tumblr.png', width: StyleApp.icon_size);
+        break;
+      case "Twitter":
+        img = Image.asset('images/twitter.png', width: StyleApp.icon_size);
+        break;
+      case "Youtube":
+        img = Image.asset('images/youtube.png', width: StyleApp.icon_size);
+        break;
+    }
+    return ListTile(
+      dense: true,
+      leading: img,
+      title: Text(
+        social,
+        style: StyleApp.style_title_line,
+      ),
+      subtitle: Text(
+        username,
+        style: StyleApp.style_content_line,
+      ),
+      onTap: () {},
+      // trailing: Icon(Icons.link, color: ColorApp.main_color,),
     );
   }
 
   Widget _layoutSocial() {
     widget.listSocial.clear();
     widget.listSocial.add(_title(StringApp.title_info_social));
-    _checkSocial(widget.contact.facebook,"Facebook");
-    _checkSocial(widget.contact.zalo,"Zalo");
-    _checkSocial(widget.contact.instagram,"Instagram");
-    _checkSocial(widget.contact.linkedin,"Linkedin");
-    _checkSocial(widget.contact.telegram,"Telegram");
-    _checkSocial(widget.contact.tumblr,"Tumblr");
-    _checkSocial(widget.contact.twitter,"Twitter");
-    _checkSocial(widget.contact.youtube,"Youtube");
+    _checkSocial(widget.contact.facebook, "Facebook");
+    _checkSocial(widget.contact.zalo, "Zalo");
+    _checkSocial(widget.contact.instagram, "Instagram");
+    _checkSocial(widget.contact.linkedin, "Linkedin");
+    _checkSocial(widget.contact.telegram, "Telegram");
+    _checkSocial(widget.contact.tumblr, "Tumblr");
+    _checkSocial(widget.contact.twitter, "Twitter");
+    _checkSocial(widget.contact.youtube, "Youtube");
     return Container(
         padding: EdgeInsets.all(StyleApp.container_layout_padding),
         margin: EdgeInsets.all(StyleApp.container_layout_margin),
@@ -188,21 +274,29 @@ class _DetailContactPageState extends State<DetailContactPage> {
           children: widget.listSocial,
         ));
   }
+
   void _checkSocial(String username, String social) {
     if (username.isNotEmpty) {
-      widget.listSocial.add(_line(social, username));
+      widget.listSocial.add(_lineSocial(social, username));
     }
   }
+
   void _checkDetail(String content, String detail) {
     if (content.isNotEmpty) {
       widget.listDetail.add(_line(detail, content));
     }
   }
+
   Widget _layoutDetail() {
     widget.listDetail.clear();
     widget.listDetail.add(_title(StringApp.title_info));
-    _checkDetail(widget.contact.birthday.toUtc().toString().split(' ')[0], StringApp.birthday);
-    _checkDetail(widget.contact.gender==0?"Nam":widget.contact.gender==1?"Nữ":"Ẩn", StringApp.gender);
+    _checkDetail(widget.contact.birthday.toUtc().toString().split(' ')[0],
+        StringApp.birthday);
+    _checkDetail(
+        widget.contact.gender == 0
+            ? "Nam"
+            : widget.contact.gender == 1 ? "Nữ" : "Ẩn",
+        StringApp.gender);
     _checkDetail(widget.contact.address, StringApp.address);
     return Container(
         padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -222,9 +316,11 @@ class _DetailContactPageState extends State<DetailContactPage> {
         width: SizeApp.getSizeByWidth(context: context, percent: 98),
         color: Colors.white,
         child: MaterialButton(
-          child: Text(StringApp.btn_delete, style: TextStyle(color: Colors.red),),
-          onPressed: (){},
-        )
-    );
+          child: Text(
+            StringApp.btn_delete,
+            style: TextStyle(color: Colors.red),
+          ),
+          onPressed: () {},
+        ));
   }
 }
