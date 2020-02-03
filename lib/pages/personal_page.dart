@@ -52,23 +52,10 @@ class _PersonalPageState extends State<PersonalPage> {
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    // _buildAvatar(context),
                     _layoutInfo(context),
-                    _hr(),
                     _layoutInfoDetail(context),
-                    _hr(),
                     _layoutSocial(context),
-                    MaterialButton(
-                      padding: EdgeInsets.all(10.0),
-                      color: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Text(
-                        StringApp.btn_edit,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {},
-                    )
+                    _layoutBottom()
                   ],
                 ),
               );
@@ -117,8 +104,11 @@ class _PersonalPageState extends State<PersonalPage> {
   }
 
   Widget _layoutInfo(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
+    return Container(
+      padding: EdgeInsets.all(StyleApp.container_layout_padding),
+      margin: EdgeInsets.all(StyleApp.container_layout_margin),
+      width: SizeApp.getSizeByWidth(context: context, percent: 98),
+      color: Colors.white,
       child: ListTile(
         onTap: () {
           setState(() {
@@ -126,11 +116,14 @@ class _PersonalPageState extends State<PersonalPage> {
           });
         },
         leading: CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 30,
-          child: Text(
-            person.name.substring(0, 1),
-            style: TextStyle(fontSize: 28, color: Colors.teal),
+          radius: 31,
+          child: CircleAvatar(
+            radius: 27,
+            backgroundColor: Colors.white,
+            child: Text(
+              person.name.substring(0, 1),
+              style: TextStyle(fontSize: 28, color: Colors.teal),
+            ),
           ),
         ),
         title: Text(
@@ -161,8 +154,10 @@ class _PersonalPageState extends State<PersonalPage> {
 
   Widget _layoutInfoDetail(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(_paddingCar),
-      width: SizeApp.getSizeByWidth(context: context, percent: 100.0),
+      padding: EdgeInsets.all(StyleApp.container_layout_padding),
+      margin: EdgeInsets.all(StyleApp.container_layout_margin),
+      width: SizeApp.getSizeByWidth(context: context, percent: 98),
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         //Title
@@ -190,21 +185,23 @@ class _PersonalPageState extends State<PersonalPage> {
     );
   }
 
-  Widget _lineInfo(BuildContext context, IconData icon, String title,
-      String content, MaterialColor color) {
+  Widget _lineInfo(BuildContext context, IconData icon, String content,
+      String title, MaterialColor color) {
     return ListTile(
       title: Text(
         content,
-        // style: TextStyle(color: Colors.grey, fontSize: 14),
+         style: StyleApp.style_title_line,
       ),
-//      subtitle: Text(
-//        content,
-//        style: TextStyle(color: Colors.black, fontSize: 16),
-//      ),
+      subtitle: Text(
+        title,
+        style: StyleApp.style_content_line,
+      ),
       leading: Icon(
         icon,
         color: color,
+        size: StyleApp.icon_size,
       ),
+      dense: true,
     );
   }
 
@@ -243,8 +240,10 @@ class _PersonalPageState extends State<PersonalPage> {
           StringApp.tumblr, "images/tumblr.png", Colors.blueGrey, person.tumblr));
     }
     return Container(
-      padding: EdgeInsets.all(_paddingCar),
-      width: SizeApp.getSizeByWidth(context: context, percent: 100.0),
+      padding: EdgeInsets.all(StyleApp.container_layout_padding),
+      margin: EdgeInsets.all(StyleApp.container_layout_margin),
+      width: SizeApp.getSizeByWidth(context: context, percent: 98),
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -314,7 +313,24 @@ class _PersonalPageState extends State<PersonalPage> {
     );
   }
 
-  Widget _hr() {
-    return Divider();
+  Widget _layoutBottom() {
+    return Container(
+      padding: EdgeInsets.all(StyleApp.container_layout_padding),
+      margin: EdgeInsets.all(StyleApp.container_layout_margin),
+      width: SizeApp.getSizeByWidth(context: context, percent: 98),
+      color: Colors.white,
+      child: MaterialButton(
+        padding: EdgeInsets.all(10.0),
+        //color: Colors.blue,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8)),
+        child: Text(
+          StringApp.btn_edit,
+          style: TextStyle(color: ColorApp.main_color),
+        ),
+        onPressed: () {},
+      ),
+    );
   }
+
 }

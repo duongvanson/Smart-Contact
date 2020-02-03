@@ -10,8 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactPage extends StatelessWidget {
   ContactPage();
 
-  final contacts = List<String>.generate(15, (i) => "Contact ${i + 1}");
   List<Widget> listSocial = List();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,15 +43,15 @@ class ContactPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final contact = contacts[index];
                   listSocial.clear();
-                  _checkSocial(contact.facebook,"facebook");
-                  _checkSocial(contact.email,"mail");
-                  _checkSocial(contact.zalo,"zalo");
-                  _checkSocial(contact.instagram,"instagram");
-                  _checkSocial(contact.linkedin,"linkedin");
-                  _checkSocial(contact.telegram,"telegram");
-                  _checkSocial(contact.tumblr,"tumblr");
-                  _checkSocial(contact.twitter,"twitter");
-                  _checkSocial(contact.youtube,"youtube");
+                  _checkSocial(contact.facebook, "facebook");
+                  _checkSocial(contact.email, "mail");
+                  _checkSocial(contact.zalo, "zalo");
+                  _checkSocial(contact.instagram, "instagram");
+                  _checkSocial(contact.linkedin, "linkedin");
+                  _checkSocial(contact.telegram, "telegram");
+                  _checkSocial(contact.tumblr, "tumblr");
+                  _checkSocial(contact.twitter, "twitter");
+                  _checkSocial(contact.youtube, "youtube");
                   return Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: ListTile(
@@ -76,10 +76,15 @@ class ContactPage extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailContactPage(contact: contact,)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailContactPage(
+                                      contact: contact,
+                                    )));
                       },
                       trailing: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           launch("tel:${contact.phone}");
                         },
                         child: CircleAvatar(
@@ -107,13 +112,13 @@ class ContactPage extends StatelessWidget {
   Widget _lineSocial(String social) {
     return Padding(
       padding: const EdgeInsets.only(right: 5),
-    child: Image.asset(social,width: 13),
+      child: Image.asset(social, width: 13),
     );
   }
 
   void _checkSocial(String social, String shot) {
     if (social.isNotEmpty) {
-      switch(shot){
+      switch (shot) {
         case "facebook":
           listSocial.add(_lineSocial('images/facebook.png'));
           break;

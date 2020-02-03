@@ -131,4 +131,41 @@ class DatabaseApp{
       );
     });
   }
+  static Future<List<Contact>> getListFavouriteContact() async {
+    final Database db = await getDatabaseApp();
+    final List<Map<String, dynamic>> maps = await db.rawQuery("SELECT * FROM Contacts WHERE person == 0 AND favourite == 1");
+    print(maps.length);
+    //print(maps);
+    return List.generate(maps.length, (i) {
+      return Contact(
+        maps[i]['id'],
+        maps[i]['name'],
+        DateTime.parse(maps[0]['birthday']),
+        maps[i]['gender'],
+        maps[i]['address'],
+        maps[i]['phone'],
+        maps[i]['email'],
+        maps[i]['facebook'],
+        maps[i]['zalo'],
+        maps[i]['youtube'],
+        maps[i]['twitter'],
+        maps[i]['telegram'],
+        maps[i]['instagram'],
+        maps[i]['linkedin'],
+        maps[i]['tumblr'],
+        maps[i]['gusto'],
+        maps[i]['favourite'],
+        maps[i]['person'],
+      );
+    });
+  }
+  static Future<bool> setFavourite(int id, bool favourite) async {
+    final Database db = await getDatabaseApp();
+    final String sql = "UPDATE contacts SET favourite == ${favourite?1:0} WHERE id = $id";
+    final update  = await db.rawUpdate(sql);
+    if (update >= 1) {
+      return true;
+    }
+    return false;
+  }
 }

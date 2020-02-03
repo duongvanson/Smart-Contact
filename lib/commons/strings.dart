@@ -6,6 +6,7 @@ class StringApp{
   static const menu_edit = "SỬA";
   static const menu_share = "CHIA SẺ";
   static const title_info = "THÔNG TIN";
+  static const title_detail = "CHI TIẾT";
   static const title_contact = "LIÊN HỆ";
   static const title_info_social = "MẠNG XÃ HỘI";
   static const email = "Mail";
@@ -32,8 +33,10 @@ class StringApp{
   static const gender = "Giới tính";
   static const phone = "Di động";
   static const gusto = "Ghi chú (Trạng thái / sở thích)";
-  static const btn_confirm = "Lưu thông tin";
+  static const btn_confirm = "LƯU THÔNG TIN";
   static const btn_back = "Quay lại";
   static const btn_delete = "XÓA BỎ LIÊN HỆ";
   static const content_qr_code = "Mã chia sẻ của bạn đã được tạo!";
+  static const favourite_on="Đã thêm vào danh sách yêu thích!";
+  static const favourite_off="Đã xóa khỏi danh sách yêu thích!";
 }

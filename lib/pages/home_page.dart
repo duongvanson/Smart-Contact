@@ -55,14 +55,20 @@ class _HomePageState extends State<HomePage>
                                     person: false,
                                   )));
                     })
-                : Text(""),
+                : Container(),
             widget.tabSlect == 0
                 ? IconButton(
                     icon: Icon(Icons.scanner),
                     onPressed: () {
                       _scanQR();
                     })
-                : Text(""),
+                : Container(),
+            widget.tabSlect == 2
+                ? IconButton(
+                icon: Icon(Icons.share),
+                onPressed: () {
+                })
+                : Container(),
           ],
           title: Text(StringApp.app_title),
           bottom: TabBar(
