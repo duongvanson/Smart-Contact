@@ -2,6 +2,7 @@ import 'package:fa_smart_contact/commons/colors.dart';
 import 'package:fa_smart_contact/commons/database.dart';
 import 'package:fa_smart_contact/commons/sizes.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
+import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ class AddContactPage extends StatefulWidget {
   bool person = false;
 
   AddContactPage({this.person});
+
+  String _subName = "admin";
 
   @override
   _AddContactPageState createState() => _AddContactPageState();
@@ -33,7 +36,7 @@ class _AddContactPageState extends State<AddContactPage> {
   List _genderList = ["Nam", "Nữ", "Không xác định"];
   String _gender;
 
-  TextEditingController _ctrlName = TextEditingController();
+  TextEditingController _ctrlName = TextEditingController(text: "");
   TextEditingController _ctrlGender = TextEditingController();
   TextEditingController _ctrlAddress = TextEditingController();
   TextEditingController _ctrlBir = TextEditingController();
@@ -50,6 +53,12 @@ class _AddContactPageState extends State<AddContactPage> {
   TextEditingController _ctrlTumblr = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //print(selectedDate.toLocal().toString().split(' ')[0]);
     _ctrlBir.text = selectedDate.toLocal().toString().split(' ')[0];
@@ -64,55 +73,11 @@ class _AddContactPageState extends State<AddContactPage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            _lineInputString(StringApp.name, _ctrlName),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: TextField(
-                controller: _ctrlBir,
-                decoration: InputDecoration(
-                    hintText: StringApp.birthday,
-                    labelText: StringApp.birthday,
-                    labelStyle: TextStyle(fontSize: 20, color: Colors.teal),
-                    suffixIcon: IconButton(
-                        icon: Icon(Icons.date_range),
-                        onPressed: () => _selectDate(context))),
-              ),
-            ),
-            _lineInputString(StringApp.gender, _ctrlGender),
-            _lineInputString(StringApp.address, _ctrlAddress),
-            _lineInputString(StringApp.phone, _ctrlPhone),
-            _lineInputString(StringApp.gusto, _ctrlGusto),
-            _lineInputString(StringApp.email, _ctrlEmail),
-            _lineInputString(StringApp.facebook, _ctrlFacebook),
-            _lineInputString(StringApp.zalo, _ctrlZalo),
-            _lineInputString(StringApp.youtube, _ctrlYoutube),
-            _lineInputString(StringApp.twitter, _ctrlTwitter),
-            _lineInputString(StringApp.telegram, _ctrlTelegram),
-            _lineInputString(StringApp.instagram, _ctrlInstagram),
-            _lineInputString(StringApp.linkedin, _ctrlLinkedin),
-            _lineInputString(StringApp.tumblr, _ctrlTumblr),
-            MaterialButton(
-              padding: EdgeInsets.all(10.0),
-              color: ColorApp.main_color,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              child: Text(
-                StringApp.btn_confirm,
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () async {
-                try {
-                  if (await _insertPersonal(context)) {
-//                    print(_ctrlInstagram.text);
-                    Navigator.pop(context);
-                  }
-                } catch (ex) {
-                  final show = SnackBar(content: Text(ex.toString()));
-                  _keySoaffold.currentState.showSnackBar(show);
-                  print("HERE $ex");
-                }
-              },
-            )
+            _avatar(),
+            _infoIndex(),
+            _infoDetail(),
+            _infoSocial(),
+            _buttom()
           ],
         ),
       ),
@@ -125,7 +90,7 @@ class _AddContactPageState extends State<AddContactPage> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-            hintText: title,
+            //hintText: title,
             labelText: title,
             labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
       ),
@@ -167,5 +132,144 @@ class _AddContactPageState extends State<AddContactPage> {
     bool insert = await DatabaseApp.insertContact(contact);
     print("KQ= $insert");
     return insert;
+  }
+
+  Widget _avatar() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Center(
+        child: CircleAvatar(
+          radius: 32,
+          child: CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.white,
+            child: Text(
+              widget._subName.substring(0, 1).toUpperCase(),
+              style: StyleApp.style_avatar,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _infoIndex() {
+    return Container(
+      padding: EdgeInsets.all(StyleApp.container_layout_padding),
+      margin: EdgeInsets.all(StyleApp.container_layout_margin),
+      width: SizeApp.getSizeByWidth(context: context, percent: 98),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _title(StringApp.title_info),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: TextField(
+              controller: _ctrlName,
+              decoration: InputDecoration(
+                  //hintText: title,
+                  labelText: StringApp.name,
+                  labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
+              onChanged: (name) {
+                setState(() {
+                  widget._subName = name.substring(0, 1);
+                });
+              },
+            ),
+          ),
+          _lineInputString(StringApp.phone, _ctrlPhone),
+          _lineInputString(StringApp.gusto, _ctrlGusto),
+        ],
+      ),
+    );
+  }
+
+  Widget _infoDetail() {
+    return Container(
+        padding: EdgeInsets.all(StyleApp.container_layout_padding),
+        margin: EdgeInsets.all(StyleApp.container_layout_margin),
+        width: SizeApp.getSizeByWidth(context: context, percent: 98),
+        color: Colors.white,
+        child: ExpansionTile(
+          title: _title(StringApp.title_detail),
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: TextField(
+                controller: _ctrlBir,
+                decoration: InputDecoration(
+                    //hintText: StringApp.birthday,
+                    labelText: StringApp.birthday,
+                    labelStyle: TextStyle(fontSize: 20, color: Colors.teal),
+                    suffixIcon: IconButton(
+                        icon: Icon(Icons.date_range),
+                        onPressed: () => _selectDate(context))),
+              ),
+            ),
+            _lineInputString(StringApp.gender, _ctrlGender),
+            _lineInputString(StringApp.address, _ctrlAddress),
+            _lineInputString(StringApp.email, _ctrlEmail),
+          ],
+        ));
+  }
+
+  Widget _infoSocial() {
+    return Container(
+      padding: EdgeInsets.all(StyleApp.container_layout_padding),
+      margin: EdgeInsets.all(StyleApp.container_layout_margin),
+      width: SizeApp.getSizeByWidth(context: context, percent: 98),
+      color: Colors.white,
+      child: ExpansionTile(
+        title: _title(StringApp.title_info_social),
+        children: <Widget>[
+          _lineInputString(StringApp.facebook, _ctrlFacebook),
+          _lineInputString(StringApp.zalo, _ctrlZalo),
+          _lineInputString(StringApp.youtube, _ctrlYoutube),
+          _lineInputString(StringApp.twitter, _ctrlTwitter),
+          _lineInputString(StringApp.telegram, _ctrlTelegram),
+          _lineInputString(StringApp.instagram, _ctrlInstagram),
+          _lineInputString(StringApp.linkedin, _ctrlLinkedin),
+          _lineInputString(StringApp.tumblr, _ctrlTumblr),
+        ],
+      ),
+    );
+  }
+
+  Widget _title(String title) {
+    return Text(
+      title,
+      style: StyleApp.style_title,
+    );
+  }
+
+  Widget _buttom() {
+    return Container(
+      padding: EdgeInsets.all(StyleApp.container_layout_padding),
+      margin: EdgeInsets.all(StyleApp.container_layout_margin),
+      width: SizeApp.getSizeByWidth(context: context, percent: 98),
+      color: Colors.white,
+      child: MaterialButton(
+        padding: EdgeInsets.all(10.0),
+//        color: ColorApp.main_color,
+        child: Text(
+          StringApp.btn_confirm,
+          style: TextStyle(color: ColorApp.main_color),
+        ),
+        onPressed: () async {
+          try {
+            if (await _insertPersonal(context)) {
+              Navigator.pop(context);
+            }
+          } catch (ex) {
+            final show = SnackBar(
+              backgroundColor: ColorApp.main_color,
+                content: Text(ex.toString()));
+            _keySoaffold.currentState.showSnackBar(show);
+            print("HERE $ex");
+          }
+        },
+      ),
+    );
   }
 }
