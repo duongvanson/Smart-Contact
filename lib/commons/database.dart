@@ -105,7 +105,7 @@ class DatabaseApp{
   }
   static Future<List<Contact>> getListContact() async {
     final Database db = await getDatabaseApp();
-    final List<Map<String, dynamic>> maps = await db.rawQuery("SELECT * FROM Contacts WHERE person == 0");
+    final List<Map<String, dynamic>> maps = await db.rawQuery("SELECT * FROM Contacts WHERE person == 0 ORDER BY name ASC");
     print(maps.length);
     //print(maps);
     return List.generate(maps.length, (i) {
@@ -165,6 +165,14 @@ class DatabaseApp{
     final update  = await db.rawUpdate(sql);
     if (update >= 1) {
       return true;
+    }
+    return false;
+  }
+  static Future<dynamic> checkNumberPhone(String phone) async {
+    final Database db = await getDatabaseApp();
+    final List<Map<String, dynamic>> maps = await db.rawQuery("SELECT * FROM Contacts WHERE phone == '$phone'");
+    if (maps.length >= 1) {
+      return maps[0]['name'];
     }
     return false;
   }

@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 
 class AddContactPage extends StatefulWidget {
   bool person = false;
-
+  Contact contact;
   AddContactPage({this.person});
-
+  AddContactPage.fromContact({this.person, this.contact});
   String _subName = "admin";
-
   @override
   _AddContactPageState createState() => _AddContactPageState();
 }
@@ -104,6 +103,10 @@ class _AddContactPageState extends State<AddContactPage> {
         _ctrlGender.text.trim().toLowerCase() != "nam" &&
         _ctrlGender.text.trim().toLowerCase() != "nữ") {
       throw ("Giới tính là 'Nam' hoặc 'Nữ' hoặc bỏ trống!");
+    }
+    dynamic result = await DatabaseApp.checkNumberPhone(_ctrlPhone.text.trim());
+    if (result.runtimeType == String) {
+      throw ("${StringApp.number_exits} [$result]");
     }
     DateTime dt = DateTime.parse(_ctrlBir.text);
     //print(dt.toLocal());
@@ -251,7 +254,6 @@ class _AddContactPageState extends State<AddContactPage> {
       color: Colors.white,
       child: MaterialButton(
         padding: EdgeInsets.all(10.0),
-//        color: ColorApp.main_color,
         child: Text(
           StringApp.btn_confirm,
           style: TextStyle(color: ColorApp.main_color),

@@ -5,6 +5,7 @@ class StringApp{
   static const tab_personal = "Cá nhân";
   static const menu_edit = "SỬA";
   static const menu_share = "CHIA SẺ";
+  static const title_share = "Chia sẻ liên hệ";
   static const title_info = "THÔNG TIN";
   static const title_detail = "CHI TIẾT";
   static const title_contact = "LIÊN HỆ";
@@ -39,4 +40,5 @@ class StringApp{
   static const content_qr_code = "Mã chia sẻ của bạn đã được tạo!";
   static const favourite_on="Đã thêm vào danh sách yêu thích!";
   static const favourite_off="Đã xóa khỏi danh sách yêu thích!";
+  static const number_exits = "Số điện thoại đã tồn tại!";
 }

@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:fa_smart_contact/commons/colors.dart';
+import 'package:fa_smart_contact/commons/database.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
+import 'package:fa_smart_contact/models/contact.dart';
 import 'package:fa_smart_contact/pages/add_contact_page.dart';
 import 'package:fa_smart_contact/pages/contact_page.dart';
 import 'package:fa_smart_contact/pages/favourite_page.dart';
 import 'package:fa_smart_contact/pages/personal_page.dart';
-import 'package:fa_smart_contact/pages/scan_qr_code_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
 
@@ -35,7 +38,9 @@ class _HomePageState extends State<HomePage>
     tabController.dispose();
     super.dispose();
   }
+
   final _keySoaffold = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -64,10 +69,7 @@ class _HomePageState extends State<HomePage>
                     })
                 : Container(),
             widget.tabSlect == 2
-                ? IconButton(
-                icon: Icon(Icons.share),
-                onPressed: () {
-                })
+                ? IconButton(icon: Icon(Icons.share), onPressed: () {})
                 : Container(),
           ],
           title: Text(StringApp.app_title),
@@ -100,10 +102,26 @@ class _HomePageState extends State<HomePage>
   Future _scanQR() async {
     try {
       String data = await Scanner.scan();
-      _keySoaffold.currentState.showSnackBar(SnackBar(content: Text(data)));
-      print(data);
+//      _keySoaffold.currentState.showSnackBar(SnackBar(
+//          backgroundColor: ColorApp.main_color,
+//          content: Text("Quét liên hệ thành công!")));
+      var contact = Contact.fromJSon(json.decode(data));
+      dynamic result = await DatabaseApp.checkNumberPhone(contact.phone);
+      if (result.runtimeType == String) {
+        _keySoaffold.currentState.showSnackBar(SnackBar(
+            backgroundColor: ColorApp.main_color,
+            content: Text("${StringApp.number_exits} [$result]")));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddContactPage.fromContact(
+                      person: false,
+                      contact: contact,
+                    )));
+      }
     } catch (ex) {
-      print(ex);
+      print("loi $ex");
     }
   }
 }

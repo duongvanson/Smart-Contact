@@ -1,11 +1,18 @@
 class Contact {
   int _id;
-  String _name;
+  String _name="";
   DateTime _birthday;
   int _gender; //male: 0, famale: 1
-  String _address, _phone, _email;
-  String _facebook, _zalo, _youtube, _twitter, _telegram, _instagram, _linkedin, _tumblr; //social by username
-  String _gusto;
+  String _address="", _phone="", _email="";
+  String _facebook = "",
+      _zalo="",
+      _youtube="",
+      _twitter="",
+      _telegram="",
+      _instagram="",
+      _linkedin="",
+      _tumblr=""; //social by username
+  String _gusto="";
   int _favourite;
   int _person;
 
@@ -41,34 +48,70 @@ class Contact {
       this._favourite,
       this._person);
 
-  Map<String, String> toMap() {
+  Map<String, dynamic> toMap() {
     return {
       //'id': _id.toString(),
-      'name': _name.toString(),
-      'birthday': _birthday.toLocal().toString().split(' ')[0],
-      'gender': _gender.toString(),
-      'address': _address.toString(),
-      'phone': _phone.toString(),
-      'email': _email.toString(),
-      'facebook': _facebook.toString(),
-      'zalo': _zalo.toString(),
-      'youtube': _youtube.toString(),
-      'twitter': _twitter.toString(),
-      'telegram': _telegram.toString(),
-      'instagram': _instagram.toString(),
-      'linkedin':_linkedin.toString(),
-      'tumblr':_tumblr.toString(),
-      'gusto': _gusto.toString(),
-      'favourite': _favourite.toString(),
-      'person': _person.toString()
+      '\"name\"': '\"$_name\"',
+      '\"birthday\"': '\"${_birthday.toLocal().toString().split(' ')[0]}\"',
+      '\"gender\"': _gender,
+      '\"address\"': '\"$_address\"',
+      '\"phone\"': '\"$_phone\"',
+      '\"email\"': '\"$_email\"',
+      '\"facebook\"': '\"$_facebook\"',
+      '\"zalo\"': '\"$_zalo\"',
+      '\"youtube\"': '\"$_youtube\"',
+      '\"twitter\"': '\"$_twitter\"',
+      '\"telegram\"': '\"$_telegram\"',
+      '\"instagram\"': '\"$_instagram\"',
+      '\"linkedin\"': '\"$_linkedin\"',
+      '\"tumblr\"': '\"$_tumblr\"',
+      '\"gusto\"': '\"$_gusto\"',
+      '\"favourite\"': _favourite,
+      '\"person\"': _person
     };
   }
 
+  Contact.fromJSon(Map<String, dynamic> json)
+      : _id = 0,
+        _name = json['name'],
+        _birthday = DateTime.parse(json['birthday']),
+        _gender = json['gender'],
+        _address = json['address'],
+        _phone = json['phone'],
+        _email = json['email'],
+        _facebook = json['facebook'],
+        _zalo = json['zalo'],
+        _youtube = json['youtube'],
+        _twitter = json['twitter'],
+        _telegram = json['telegram'],
+        _gusto = json['gusto'],
+        _favourite = 0,
+        _person = 0,
+        _instagram = json['instagram'],
+        _linkedin = json['linkedin'],
+        _tumblr = json['tumblr'];
+
   @override
   String toString() {
-    return '{id: $_id, name: $_name, birthday: ${_birthday.toUtc().toString().split(' ')[0]}, gender: $_gender, address: $_address, phone: $_phone, email: $_email, facebook: $_facebook, zalo: $_zalo, youtube: $_youtube, twitter: $_twitter, telegram: $_telegram,instagram: $_instagram,linkedin: $_linkedin, tumblr: $_tumblr, gusto: $_gusto, favourite: $_favourite, person: $_person}';
+    return '{id: 0, '
+        'name: $_name,'
+        ' birthday: ${_birthday.toUtc().toString().split(' ')[0]}, '
+        'gender: $_gender,'
+        ' address: $_address, '
+        'phone: $_phone,'
+        ' email: $_email,'
+        'facebook: $_facebook, '
+        'zalo: $_zalo,'
+        ' youtube: $_youtube, '
+        'twitter: $_twitter,'
+        ' telegram: $_telegram,'
+        'instagram: $_instagram,'
+        'linkedin: $_linkedin,'
+        ' tumblr: $_tumblr '
+        'gusto: $_gusto,'
+        ' favourite: $_favourite, '
+        'person: $_person}';
   }
-
   String get gusto => _gusto;
 
   set gusto(String value) {

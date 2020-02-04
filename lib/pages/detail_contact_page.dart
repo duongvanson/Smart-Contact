@@ -4,6 +4,7 @@ import 'package:fa_smart_contact/commons/sizes.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
+import 'package:fa_smart_contact/pages/share_contact_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
@@ -48,7 +49,9 @@ class _DetailContactPageState extends State<DetailContactPage> {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ShareContactPage(contact: widget.contact)));
+            },
             child: Text(
               StringApp.menu_share,
               style: StyleApp.style_menu_app_bar,
@@ -248,7 +251,9 @@ class _DetailContactPageState extends State<DetailContactPage> {
         username,
         style: StyleApp.style_content_line,
       ),
-      onTap: () {},
+      onTap: () {
+        _visitSocial(social, username);
+      },
       // trailing: Icon(Icons.link, color: ColorApp.main_color,),
     );
   }
@@ -322,5 +327,40 @@ class _DetailContactPageState extends State<DetailContactPage> {
           ),
           onPressed: () {},
         ));
+  }
+
+  Future<void> _visitSocial(String social, String username) async {
+    try{
+      await launcher.launch(username);
+    }catch(ex){
+      String url = "";
+      switch (social) {
+        case "Facebook":
+          url = "https://fb.me/$username";
+          break;
+        case "Zalo":
+          url = "https://zalo.me/$username";
+          break;
+        case "Instagram":
+          url = "https://instagram.com/$username";
+          break;
+        case "Linkedin":
+          url = "https://linkedin.com/in/$username";
+          break;
+        case "Telegram":
+          url = "https://telegram.me/$username";
+          break;
+        case "Tumblr":
+          url = "https://$username.tumblr.com/";
+          break;
+        case "Twitter":
+          url = "https://twitter.com/$username";
+          break;
+        case "Youtube":
+          url = "https://youtube.com/channel/$username";
+          break;
+      }
+      await launcher.launch(url);
+    }
   }
 }
