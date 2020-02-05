@@ -67,7 +67,7 @@ class FavouritePage extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailContactPage(contact: contact,)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailContactPage(id: contact.id,)));
                       },
                       trailing: GestureDetector(
                         onTap: (){

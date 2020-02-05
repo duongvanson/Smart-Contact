@@ -80,7 +80,7 @@ class ContactPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => DetailContactPage(
-                                      contact: contact,
+                                      id: contact.id,
                                     )));
                       },
                       trailing: GestureDetector(

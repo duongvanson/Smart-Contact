@@ -4,16 +4,18 @@ import 'package:fa_smart_contact/commons/sizes.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
+import 'package:fa_smart_contact/pages/edit_contact_page.dart';
 import 'package:fa_smart_contact/pages/share_contact_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class DetailContactPage extends StatefulWidget {
   Contact contact;
+  int id;
   Icon iconFavourite = Icon(Icons.star_border);
   Color iconColor = Colors.grey;
 
-  DetailContactPage({this.contact});
+  DetailContactPage({this.id});
 
   List<Widget> listSocial = List();
   List<Widget> listDetail = List();
@@ -25,11 +27,11 @@ class DetailContactPage extends StatefulWidget {
 class _DetailContactPageState extends State<DetailContactPage> {
   @override
   void initState() {
-    widget.iconFavourite = widget.contact.favourite == 0
-        ? Icon(Icons.star_border)
-        : Icon(Icons.star);
-    widget.iconColor =
-        widget.contact.favourite == 0 ? Colors.grey : Colors.orange;
+//    widget.iconFavourite = widget.contact.favourite == 0
+//        ? Icon(Icons.star_border)
+//        : Icon(Icons.star);
+//    widget.iconColor =
+//        widget.contact.favourite == 0 ? Colors.grey : Colors.orange;
     super.initState();
   }
 
@@ -42,7 +44,17 @@ class _DetailContactPageState extends State<DetailContactPage> {
       appBar: AppBar(
         actions: <Widget>[
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditContactPage(
+                            contact: widget.contact,
+                          )));
+              _keySoaffold.currentState.showSnackBar(SnackBar(
+                  backgroundColor: ColorApp.main_color,
+                  content: Text(StringApp.update_ok)));
+            },
             child: Text(
               StringApp.menu_edit,
               style: StyleApp.style_menu_app_bar,
@@ -55,6 +67,7 @@ class _DetailContactPageState extends State<DetailContactPage> {
                   MaterialPageRoute(
                       builder: (context) =>
                           ShareContactPage(contact: widget.contact)));
+
             },
             child: Text(
               StringApp.menu_share,
@@ -63,17 +76,27 @@ class _DetailContactPageState extends State<DetailContactPage> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _layoutTop(),
-            _layoutInfo(),
-            _layoutSocial(),
-            _layoutDetail(),
-            _buttonDelete()
-          ],
-        ),
+      body: FutureBuilder(
+        future: DatabaseApp.getContactById(widget.id),
+        builder:(context, snap){
+          if (snap.hasData) {
+            widget.contact = snap.data;
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _layoutTop(),
+                  _layoutInfo(),
+                  _layoutSocial(),
+                  _layoutDetail(),
+                  _buttonDelete()
+                ],
+              ),
+            );
+          }
+          return Center(child: CircularProgressIndicator(),);
+
+        },
       ),
     );
   }

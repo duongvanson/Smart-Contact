@@ -6,17 +6,16 @@ import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
 import 'package:flutter/material.dart';
 
-class AddContactPage extends StatefulWidget {
-  bool person = false;
+class EditContactPage extends StatefulWidget {
   Contact contact;
-  AddContactPage({this.person});
-  AddContactPage.fromContact({this.person, this.contact});
   String _subName = "admin";
+  EditContactPage({this.contact});
   @override
-  _AddContactPageState createState() => _AddContactPageState();
+  _EditContactPageState createState() => _EditContactPageState();
 }
 
-class _AddContactPageState extends State<AddContactPage> {
+class _EditContactPageState extends State<EditContactPage> {
+
   final _keySoaffold = GlobalKey<ScaffoldState>();
   DateTime selectedDate = DateTime.now();
 
@@ -31,7 +30,6 @@ class _AddContactPageState extends State<AddContactPage> {
         selectedDate = picked;
       });
   }
-
   TextEditingController _ctrlName = TextEditingController(text: "");
   TextEditingController _ctrlGender = TextEditingController();
   TextEditingController _ctrlAddress = TextEditingController();
@@ -47,7 +45,6 @@ class _AddContactPageState extends State<AddContactPage> {
   TextEditingController _ctrlInstagram = TextEditingController();
   TextEditingController _ctrlLinkedin = TextEditingController();
   TextEditingController _ctrlTumblr = TextEditingController();
-
   @override
   void initState() {
     if (widget.contact!=null) {
@@ -69,18 +66,14 @@ class _AddContactPageState extends State<AddContactPage> {
     }
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
-    //print(selectedDate.toLocal().toString().split(' ')[0]);
     _ctrlBir.text = selectedDate.toLocal().toString().split(' ')[0];
     return Scaffold(
       key: _keySoaffold,
       appBar: AppBar(
         backgroundColor: ColorApp.main_color,
-        title: widget.person
-            ? Text(StringApp.title_add_person)
-            : Text(StringApp.title_add_contact),
+        title: Text(StringApp.title_edit_contact),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -95,61 +88,6 @@ class _AddContactPageState extends State<AddContactPage> {
       ),
     );
   }
-
-  Widget _lineInputString(String title, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-            //hintText: title,
-            labelText: title,
-            labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
-      ),
-    );
-  }
-
-  Future<bool> _insertPersonal(BuildContext context) async {
-    if (_ctrlName.text.trim().isEmpty) throw ("Vui lòng điền tên của bạn!");
-    if (_ctrlPhone.text.trim().isEmpty) throw ("Vui lòng nhập số điện thoại!");
-    if (_ctrlGender.text.trim().isNotEmpty &&
-        _ctrlGender.text.trim().toLowerCase() != "nam" &&
-        _ctrlGender.text.trim().toLowerCase() != "nữ") {
-      throw ("Giới tính là 'Nam' hoặc 'Nữ' hoặc bỏ trống!");
-    }
-    dynamic result = await DatabaseApp.checkNumberPhone(_ctrlPhone.text.trim());
-    if (result.runtimeType == String) {
-      throw ("${StringApp.number_exits} [$result]");
-    }
-    DateTime dt = DateTime.parse(_ctrlBir.text);
-    //print(dt.toLocal());
-    Contact contact = Contact(
-        0,
-        _ctrlName.text.trim(),
-        DateTime.parse(_ctrlBir.text.trim()),
-        _ctrlGender.text.trim().toLowerCase() == "nam"
-            ? 0
-            : _ctrlGender.text.trim().toLowerCase() == "nữ" ? 1 : 2,
-        _ctrlAddress.text.trim(),
-        _ctrlPhone.text.trim(),
-        _ctrlEmail.text.trim(),
-        _ctrlFacebook.text.trim(),
-        _ctrlZalo.text.trim(),
-        _ctrlYoutube.text.trim(),
-        _ctrlTwitter.text.trim(),
-        _ctrlTelegram.text.trim(),
-        _ctrlInstagram.text.trim(),
-        _ctrlLinkedin.text.trim(),
-        _ctrlTumblr.text.trim(),
-        _ctrlGusto.text.trim(),
-        0,
-        widget.person ? 1 : 0);
-    //print(contact);
-    bool insert = await DatabaseApp.insertContact(contact);
-    print("KQ= $insert");
-    return insert;
-  }
-
   Widget _avatar() {
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -168,7 +106,6 @@ class _AddContactPageState extends State<AddContactPage> {
       ),
     );
   }
-
   Widget _infoIndex() {
     return Container(
       padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -184,7 +121,7 @@ class _AddContactPageState extends State<AddContactPage> {
             child: TextField(
               controller: _ctrlName,
               decoration: InputDecoration(
-                  //hintText: title,
+                //hintText: title,
                   labelText: StringApp.name,
                   labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
               onChanged: (name) {
@@ -200,7 +137,6 @@ class _AddContactPageState extends State<AddContactPage> {
       ),
     );
   }
-
   Widget _infoDetail() {
     return Container(
         padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -215,7 +151,7 @@ class _AddContactPageState extends State<AddContactPage> {
               child: TextField(
                 controller: _ctrlBir,
                 decoration: InputDecoration(
-                    //hintText: StringApp.birthday,
+                  //hintText: StringApp.birthday,
                     labelText: StringApp.birthday,
                     labelStyle: TextStyle(fontSize: 20, color: Colors.teal),
                     suffixIcon: IconButton(
@@ -229,7 +165,6 @@ class _AddContactPageState extends State<AddContactPage> {
           ],
         ));
   }
-
   Widget _infoSocial() {
     return Container(
       padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -251,14 +186,12 @@ class _AddContactPageState extends State<AddContactPage> {
       ),
     );
   }
-
   Widget _title(String title) {
     return Text(
       title,
       style: StyleApp.style_title,
     );
   }
-
   Widget _buttom() {
     return Container(
       padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -273,16 +206,12 @@ class _AddContactPageState extends State<AddContactPage> {
         ),
         onPressed: () async {
           try {
-            if (await _insertPersonal(context)) {
-              _keySoaffold.currentState.showSnackBar(SnackBar(
-                  backgroundColor: ColorApp.main_color,
-                  content: Text(StringApp.insert_ok)));
-              await Future.delayed(Duration(milliseconds: 300));
+            if (await _updatePersonal(context)) {
               Navigator.pop(context);
             }
           } catch (ex) {
             final show = SnackBar(
-              backgroundColor: ColorApp.main_color,
+                backgroundColor: ColorApp.main_color,
                 content: Text(ex.toString()));
             _keySoaffold.currentState.showSnackBar(show);
             print("HERE $ex");
@@ -290,5 +219,51 @@ class _AddContactPageState extends State<AddContactPage> {
         },
       ),
     );
+  }
+  Widget _lineInputString(String title, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          //hintText: title,
+            labelText: title,
+            labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
+      ),
+    );
+  }
+  Future<bool> _updatePersonal(BuildContext context) async {
+    if (_ctrlName.text.trim().isEmpty) throw ("Vui lòng điền tên của bạn!");
+    if (_ctrlPhone.text.trim().isEmpty) throw ("Vui lòng nhập số điện thoại!");
+    if (_ctrlGender.text.trim().isNotEmpty &&
+        _ctrlGender.text.trim().toLowerCase() != "nam" &&
+        _ctrlGender.text.trim().toLowerCase() != "nữ") {
+      throw ("Giới tính là 'Nam' hoặc 'Nữ' hoặc bỏ trống!");
+    }
+    DateTime dt = DateTime.parse(_ctrlBir.text);
+    Contact contact = Contact(
+        widget.contact.id,
+        _ctrlName.text.trim(),
+        DateTime.parse(_ctrlBir.text.trim()),
+        _ctrlGender.text.trim().toLowerCase() == "nam"
+            ? 0
+            : _ctrlGender.text.trim().toLowerCase() == "nữ" ? 1 : 2,
+        _ctrlAddress.text.trim(),
+        _ctrlPhone.text.trim(),
+        _ctrlEmail.text.trim(),
+        _ctrlFacebook.text.trim(),
+        _ctrlZalo.text.trim(),
+        _ctrlYoutube.text.trim(),
+        _ctrlTwitter.text.trim(),
+        _ctrlTelegram.text.trim(),
+        _ctrlInstagram.text.trim(),
+        _ctrlLinkedin.text.trim(),
+        _ctrlTumblr.text.trim(),
+        _ctrlGusto.text.trim(),
+        widget.contact.favourite,
+        widget.contact.person);
+    bool update = await DatabaseApp.updateContact(contact);
+    print("KQ UPDATE= $update");
+    return update;
   }
 }

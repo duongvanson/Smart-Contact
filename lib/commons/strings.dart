@@ -27,6 +27,7 @@ class StringApp{
   static const title_add_contact_page = "THÊM LIÊN HỆ";
   static const title_add_person = "Cập nhật thông tin cá nhân";
   static const title_add_contact = "Thêm liên hệ mới";
+  static const title_edit_contact = "Chỉnh sửa liên hệ";
   static const save = "LƯU";
   static const name = "Họ tên";
   static const address = "Quê quán";
@@ -43,5 +44,6 @@ class StringApp{
   static const number_exits = "Số điện thoại đã tồn tại!";
   static const update = "CẬP NHẬT THAY THẾ";
   static const update_ok = "CẬP NHẬT THÀNH CÔNG!";
+  static const insert_ok = "ĐÃ THÊM MỘT LIÊN HỆ!";
   static const update_fail = "CẬP NHẬT THẤT BẠI!";
 }

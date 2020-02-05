@@ -5,6 +5,7 @@ import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
 import 'package:fa_smart_contact/pages/add_contact_page.dart';
+import 'package:fa_smart_contact/pages/edit_contact_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -16,16 +17,9 @@ class PersonalPage extends StatefulWidget {
 class _PersonalPageState extends State<PersonalPage> {
   bool share = false;
 
-  final _paddingCar = 10.0;
-
-  final _marginCar = 10.0;
-
-//  final _styleTitle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
-
   Contact person, temp;
 
   @override
-
   @override
   Widget build(BuildContext context) {
     if (share)
@@ -45,10 +39,8 @@ class _PersonalPageState extends State<PersonalPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               person = snapshot.data as Contact;
+              //print(person);
               temp = person;
-              temp.person = 0;
-              temp.favourite = 0;
-              print(temp.name);
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
@@ -190,7 +182,7 @@ class _PersonalPageState extends State<PersonalPage> {
     return ListTile(
       title: Text(
         content,
-         style: StyleApp.style_title_line,
+        style: StyleApp.style_title_line,
       ),
       subtitle: Text(
         title,
@@ -208,36 +200,36 @@ class _PersonalPageState extends State<PersonalPage> {
   Widget _layoutSocial(BuildContext context) {
     List<Widget> listSocial = List<Widget>();
     if (person.facebook.isNotEmpty) {
-      listSocial.add(
-          _lineSocial(StringApp.facebook, "images/facebook.png", Colors.blue, person.facebook));
+      listSocial.add(_lineSocial(StringApp.facebook, "images/facebook.png",
+          Colors.blue, person.facebook));
     }
     if (person.zalo.toString().isNotEmpty) {
-      listSocial
-          .add(_lineSocial(StringApp.zalo, "images/zalo.png", Colors.indigo, person.zalo));
+      listSocial.add(_lineSocial(
+          StringApp.zalo, "images/zalo.png", Colors.indigo, person.zalo));
     }
     if (person.youtube.toString().isNotEmpty) {
-      listSocial
-          .add(_lineSocial(StringApp.youtube, "images/youtube.png", Colors.red, person.youtube));
+      listSocial.add(_lineSocial(
+          StringApp.youtube, "images/youtube.png", Colors.red, person.youtube));
     }
     if (person.twitter.toString().isNotEmpty) {
-      listSocial.add(
-          _lineSocial(StringApp.twitter, "images/twitter.png", Colors.cyan, person.twitter));
+      listSocial.add(_lineSocial(StringApp.twitter, "images/twitter.png",
+          Colors.cyan, person.twitter));
     }
     if (person.telegram.toString().isNotEmpty) {
-      listSocial.add(_lineSocial(
-          StringApp.telegram, "images/telegram.png", Colors.blueGrey, person.telegram));
+      listSocial.add(_lineSocial(StringApp.telegram, "images/telegram.png",
+          Colors.blueGrey, person.telegram));
     }
     if (person.instagram.toString().isNotEmpty) {
-      listSocial.add(_lineSocial(
-          StringApp.instagram, "images/instagram.png", Colors.blueGrey, person.instagram));
+      listSocial.add(_lineSocial(StringApp.instagram, "images/instagram.png",
+          Colors.blueGrey, person.instagram));
     }
     if (person.linkedin.toString().isNotEmpty) {
-      listSocial.add(_lineSocial(
-          StringApp.linkedin, "images/linkedin.png", Colors.blueGrey, person.linkedin));
+      listSocial.add(_lineSocial(StringApp.linkedin, "images/linkedin.png",
+          Colors.blueGrey, person.linkedin));
     }
     if (person.tumblr.toString().isNotEmpty) {
-      listSocial.add(_lineSocial(
-          StringApp.tumblr, "images/tumblr.png", Colors.blueGrey, person.tumblr));
+      listSocial.add(_lineSocial(StringApp.tumblr, "images/tumblr.png",
+          Colors.blueGrey, person.tumblr));
     }
     return Container(
       padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -268,13 +260,16 @@ class _PersonalPageState extends State<PersonalPage> {
           social,
           style: TextStyle(color: Colors.black),
         ),
-        avatar: Image.asset(icon, width: 18,),
+        avatar: Image.asset(
+          icon,
+          width: 18,
+        ),
       ),
     );
   }
 
   Widget _layoutShare() {
-    print(temp.toString());
+    //print(temp.toString());
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -322,15 +317,20 @@ class _PersonalPageState extends State<PersonalPage> {
       child: MaterialButton(
         padding: EdgeInsets.all(10.0),
         //color: Colors.blue,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Text(
           StringApp.btn_edit,
           style: TextStyle(color: ColorApp.main_color),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditContactPage(
+                        contact: person,
+                      )));
+        },
       ),
     );
   }
-
 }

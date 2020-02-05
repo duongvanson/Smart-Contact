@@ -9,26 +9,26 @@ class DatabaseApp {
   static Future<Database> getDatabaseApp() async {
     return openDatabase(join(await getDatabasesPath(), "contact.db"),
         onCreate: (db, version) {
-          return db.execute("CREATE TABLE Contacts("
-              "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-              "name TEXT, "
-              "birthday TEXT,"
-              "gender INTEGER,"
-              "address TEXT,"
-              "phone TEXT,"
-              "email TEXT,"
-              "facebook TEXT,"
-              "zalo TEXT,"
-              "youtube TEXT,"
-              "twitter TEXT,"
-              "telegram TEXT,"
-              "instagram TEXT,"
-              "linkedin TEXT,"
-              "tumblr TEXT,"
-              "gusto TEXT,"
-              "favourite INTEGER,"
-              "person INTEGER)");
-        }, version: 1);
+      return db.execute("CREATE TABLE Contacts("
+          "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+          "name TEXT, "
+          "birthday TEXT,"
+          "gender INTEGER,"
+          "address TEXT,"
+          "phone TEXT,"
+          "email TEXT,"
+          "facebook TEXT,"
+          "zalo TEXT,"
+          "youtube TEXT,"
+          "twitter TEXT,"
+          "telegram TEXT,"
+          "instagram TEXT,"
+          "linkedin TEXT,"
+          "tumblr TEXT,"
+          "gusto TEXT,"
+          "favourite INTEGER,"
+          "person INTEGER)");
+    }, version: 1);
   }
 
   static Future<bool> insertContact(Contact contact) async {
@@ -51,7 +51,7 @@ class DatabaseApp {
   static Future<Contact> getPersonContact() async {
     final Database db = await getDatabaseApp();
     final List<Map<String, dynamic>> maps =
-    await db.rawQuery("SELECT * FROM Contacts WHERE person == 1");
+        await db.rawQuery("SELECT * FROM Contacts WHERE person == 1");
     if (maps.length <= 0) {
       print("cha co gi");
       return null;
@@ -76,14 +76,14 @@ class DatabaseApp {
       maps[0]['favourite'],
       maps[0]['person'],
     );
-    print(contact);
+    // print(contact);
     return contact;
   }
 
   static Future<Contact> getContactById(int id) async {
     final Database db = await getDatabaseApp();
     final List<Map<String, dynamic>> maps =
-    await db.rawQuery("SELECT * FROM Contacts WHERE id == $id");
+        await db.rawQuery("SELECT * FROM Contacts WHERE id == $id");
     return Contact(
       maps[0]['id'],
       maps[0]['name'],
@@ -119,7 +119,7 @@ class DatabaseApp {
     final List<Map<String, dynamic>> maps = await db
         .rawQuery("SELECT * FROM Contacts WHERE person == 0 ORDER BY name ASC");
     print(maps.length);
-   // print(maps);
+    // print(maps);
     return List.generate(maps.length, (i) {
       return Contact(
         maps[i]['id'],
@@ -177,7 +177,7 @@ class DatabaseApp {
   static Future<bool> setFavourite(int id, bool favourite) async {
     final Database db = await getDatabaseApp();
     final String sql =
-        "UPDATE contacts SET favourite == ${favourite ? 1 : 0} WHERE id = $id";
+        "UPDATE contacts SET favourite = ${favourite ? 1 : 0} WHERE id = $id";
     final update = await db.rawUpdate(sql);
     if (update >= 1) {
       return true;
@@ -188,7 +188,7 @@ class DatabaseApp {
   static Future<dynamic> checkNumberPhone(String phone) async {
     final Database db = await getDatabaseApp();
     final List<Map<String, dynamic>> maps =
-    await db.rawQuery("SELECT * FROM Contacts WHERE phone == '$phone'");
+        await db.rawQuery("SELECT * FROM Contacts WHERE phone == '$phone'");
     if (maps.length >= 1) {
       return maps[0]['name'];
     }
@@ -203,6 +203,35 @@ class DatabaseApp {
         return true;
       else
         return false;
+    }
+    return false;
+  }
+
+  static Future<bool> updateContact(Contact contact) async {
+    final Database db = await getDatabaseApp();
+    //print(contact);
+    final String sql =
+        "UPDATE Contacts SET "
+        "name = '${contact.name}',"
+        " phone = '${contact.phone}',"
+        " gusto = '${contact.gusto}',"
+        " birthday = '${contact.birthday}',"
+        " address = '${contact.address}',"
+        " gender = ${contact.gender},"
+        " email = '${contact.email}',"
+        " facebook = '${contact.facebook}',"
+        " zalo = '${contact.zalo}',"
+        " youtube = '${contact.youtube}',"
+        " twitter = '${contact.twitter}',"
+        " telegram = '${contact.telegram}',"
+        " instagram = '${contact.instagram}',"
+        " linkedin = '${contact.linkedin}',"
+        " tumblr = '${contact.tumblr}'"
+           " WHERE id = ${contact.id}";
+   // print(sql);
+    final update = await db.rawUpdate(sql);
+    if (update >= 1) {
+      return true;
     }
     return false;
   }
