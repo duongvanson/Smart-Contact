@@ -50,7 +50,11 @@ class _DetailContactPageState extends State<DetailContactPage> {
           ),
           MaterialButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ShareContactPage(contact: widget.contact)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ShareContactPage(contact: widget.contact)));
             },
             child: Text(
               StringApp.menu_share,
@@ -106,7 +110,7 @@ class _DetailContactPageState extends State<DetailContactPage> {
                       : Colors.grey;
                 });
                 _keySoaffold.currentState.showSnackBar(SnackBar(
-                  backgroundColor: ColorApp.main_color,
+                    backgroundColor: ColorApp.main_color,
                     content: widget.contact.favourite == 1
                         ? Text(StringApp.favourite_on)
                         : Text(StringApp.favourite_off)));
@@ -325,14 +329,29 @@ class _DetailContactPageState extends State<DetailContactPage> {
             StringApp.btn_delete,
             style: TextStyle(color: Colors.red),
           ),
-          onPressed: () {},
+          onPressed: () async {
+            bool delete = await _showDialog(widget.contact.name);
+            print(delete);
+            if (delete) {
+              if (await DatabaseApp.deleteContactById(widget.contact.id)) {
+                //print("DELETE");
+                _keySoaffold.currentState.showSnackBar(SnackBar(
+                    backgroundColor: ColorApp.main_color,
+                    content: Text("Đã xóa ${widget.contact.name}!")));
+                await Future.delayed(Duration(milliseconds: 300));
+                Navigator.pop(context);
+              } else {
+                print("FAIL");
+              }
+            }
+          },
         ));
   }
 
   Future<void> _visitSocial(String social, String username) async {
-    try{
+    try {
       await launcher.launch(username);
-    }catch(ex){
+    } catch (ex) {
       String url = "";
       switch (social) {
         case "Facebook":
@@ -362,5 +381,29 @@ class _DetailContactPageState extends State<DetailContactPage> {
       }
       await launcher.launch(url);
     }
+  }
+
+  Future<bool> _showDialog(String name) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Xác nhận xóa"),
+              content: Text("Bạn muốn xóa [$name] khỏi danh sách liên hệ?"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text("HỦY"),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text("XÁC NHẬN"),
+                  textColor: Colors.red,
+                ),
+              ],
+            ));
   }
 }

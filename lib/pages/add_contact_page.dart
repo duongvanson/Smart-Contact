@@ -53,7 +53,23 @@ class _AddContactPageState extends State<AddContactPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    if (widget.contact!=null) {
+      _ctrlName.text = widget._subName = widget.contact.name;
+      _ctrlGender.text = widget.contact.gender==0?"Nam":widget.contact.gender==1?"Nữ":"";
+      _ctrlAddress.text = widget.contact.address;
+      selectedDate = widget.contact.birthday;
+      _ctrlPhone.text = widget.contact.phone;
+      _ctrlGusto.text = widget.contact.gusto;
+      _ctrlEmail.text = widget.contact.email;
+      _ctrlFacebook.text = widget.contact.facebook;
+      _ctrlZalo.text = widget.contact.zalo;
+      _ctrlYoutube.text = widget.contact.youtube;
+      _ctrlTwitter.text = widget.contact.twitter;
+      _ctrlTelegram.text = widget.contact.telegram;
+      _ctrlInstagram.text = widget.contact.instagram;
+      _ctrlLinkedin.text = widget.contact.linkedin;
+      _ctrlTumblr.text = widget.contact.tumblr;
+    }
     super.initState();
   }
 

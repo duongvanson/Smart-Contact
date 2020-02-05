@@ -41,4 +41,7 @@ class StringApp{
   static const favourite_on="Đã thêm vào danh sách yêu thích!";
   static const favourite_off="Đã xóa khỏi danh sách yêu thích!";
   static const number_exits = "Số điện thoại đã tồn tại!";
+  static const update = "CẬP NHẬT THAY THẾ";
+  static const update_ok = "CẬP NHẬT THÀNH CÔNG!";
+  static const update_fail = "CẬP NHẬT THẤT BẠI!";
 }

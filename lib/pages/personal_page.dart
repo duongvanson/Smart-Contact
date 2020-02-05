@@ -285,7 +285,7 @@ class _PersonalPageState extends State<PersonalPage> {
             });
           },
           child: QrImage(
-            data: temp.toString(),
+            data: temp.toMap().toString(),
             version: QrVersions.auto,
             size: 200.0,
           ),

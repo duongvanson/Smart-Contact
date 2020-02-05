@@ -13,9 +13,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final jsonString = "{\"name\":15}";
-    Map<String, dynamic> books = json.decode(jsonString);
-    print(books);
+//    final jsonString = "{\"name\":15}";
+//    Map<String, dynamic> books = json.decode(jsonString);
+//    print(books);
     return MaterialApp(
       title: StringApp.app_title,
       color: ColorApp.main_color,

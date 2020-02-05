@@ -70,7 +70,27 @@ class Contact {
       '\"person\"': _person
     };
   }
-
+  Map<String, dynamic> toMapData() {
+    return {
+      'name': '$_name',
+      'birthday': '${_birthday.toLocal().toString().split(' ')[0]}',
+      'gender': _gender,
+      'address': '$_address',
+      'phone': '$_phone',
+      'email': '$_email',
+      'facebook': '$_facebook',
+      'zalo': '$_zalo',
+      'youtube': '$_youtube',
+      'twitter': '$_twitter',
+      'telegram': '$_telegram',
+      'instagram': '$_instagram',
+      'linkedin': '$_linkedin',
+      'tumblr': '$_tumblr',
+      'gusto': '$_gusto',
+      'favourite': _favourite,
+      'person': _person
+    };
+  }
   Contact.fromJSon(Map<String, dynamic> json)
       : _id = 0,
         _name = json['name'],
@@ -90,7 +110,6 @@ class Contact {
         _instagram = json['instagram'],
         _linkedin = json['linkedin'],
         _tumblr = json['tumblr'];
-
   @override
   String toString() {
     return '{id: 0, '
