@@ -6,12 +6,17 @@ import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AddContactPage extends StatefulWidget {
   bool person = false;
   Contact contact;
+
   AddContactPage({this.person});
+
   AddContactPage.fromContact({this.person, this.contact});
+
   String _subName = "admin";
+
   @override
   _AddContactPageState createState() => _AddContactPageState();
 }
@@ -50,9 +55,11 @@ class _AddContactPageState extends State<AddContactPage> {
 
   @override
   void initState() {
-    if (widget.contact!=null) {
+    if (widget.contact != null) {
       _ctrlName.text = widget._subName = widget.contact.name;
-      _ctrlGender.text = widget.contact.gender==0?"Nam":widget.contact.gender==1?"Nữ":"";
+      _ctrlGender.text = widget.contact.gender == 0
+          ? "Nam"
+          : widget.contact.gender == 1 ? "Nữ" : "";
       _ctrlAddress.text = widget.contact.address;
       selectedDate = widget.contact.birthday;
       _ctrlPhone.text = widget.contact.phone;
@@ -121,7 +128,7 @@ class _AddContactPageState extends State<AddContactPage> {
     if (result.runtimeType == String) {
       throw ("${StringApp.number_exits} [$result]");
     }
-    DateTime dt = DateTime.parse(_ctrlBir.text);
+    //DateTime dt = DateTime.parse(_ctrlBir.text);
     //print(dt.toLocal());
     Contact contact = Contact(
         0,
@@ -277,12 +284,12 @@ class _AddContactPageState extends State<AddContactPage> {
               _keySoaffold.currentState.showSnackBar(SnackBar(
                   backgroundColor: ColorApp.main_color,
                   content: Text(StringApp.insert_ok)));
-              await Future.delayed(Duration(milliseconds: 300));
+              await Future.delayed(Duration(milliseconds: 500));
               Navigator.pop(context);
             }
           } catch (ex) {
             final show = SnackBar(
-              backgroundColor: ColorApp.main_color,
+                backgroundColor: ColorApp.main_color,
                 content: Text(ex.toString()));
             _keySoaffold.currentState.showSnackBar(show);
             print("HERE $ex");

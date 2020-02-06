@@ -1,18 +1,18 @@
 class Contact {
   int _id;
-  String _name="";
+  String _name = "";
   DateTime _birthday;
   int _gender; //male: 0, famale: 1
-  String _address="", _phone="", _email="";
+  String _address = "", _phone = "", _email = "";
   String _facebook = "",
-      _zalo="",
-      _youtube="",
-      _twitter="",
-      _telegram="",
-      _instagram="",
-      _linkedin="",
-      _tumblr=""; //social by username
-  String _gusto="";
+      _zalo = "",
+      _youtube = "",
+      _twitter = "",
+      _telegram = "",
+      _instagram = "",
+      _linkedin = "",
+      _tumblr = ""; //social by username
+  String _gusto = "";
   int _favourite;
   int _person;
 
@@ -70,6 +70,7 @@ class Contact {
       '\"person\"': _person
     };
   }
+
   Map<String, dynamic> toMapData() {
     return {
       'name': '$_name',
@@ -91,6 +92,7 @@ class Contact {
       'person': _person
     };
   }
+
   Contact.fromJSon(Map<String, dynamic> json)
       : _id = 0,
         _name = json['name'],
@@ -110,6 +112,7 @@ class Contact {
         _instagram = json['instagram'],
         _linkedin = json['linkedin'],
         _tumblr = json['tumblr'];
+
   @override
   String toString() {
     return '{id: 0, '
@@ -131,6 +134,7 @@ class Contact {
         ' favourite: $_favourite, '
         'person: $_person}';
   }
+
   String get gusto => _gusto;
 
   set gusto(String value) {

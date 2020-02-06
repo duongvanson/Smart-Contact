@@ -27,11 +27,6 @@ class DetailContactPage extends StatefulWidget {
 class _DetailContactPageState extends State<DetailContactPage> {
   @override
   void initState() {
-//    widget.iconFavourite = widget.contact.favourite == 0
-//        ? Icon(Icons.star_border)
-//        : Icon(Icons.star);
-//    widget.iconColor =
-//        widget.contact.favourite == 0 ? Colors.grey : Colors.orange;
     super.initState();
   }
 
@@ -51,9 +46,6 @@ class _DetailContactPageState extends State<DetailContactPage> {
                       builder: (context) => EditContactPage(
                             contact: widget.contact,
                           )));
-              _keySoaffold.currentState.showSnackBar(SnackBar(
-                  backgroundColor: ColorApp.main_color,
-                  content: Text(StringApp.update_ok)));
             },
             child: Text(
               StringApp.menu_edit,
@@ -67,7 +59,6 @@ class _DetailContactPageState extends State<DetailContactPage> {
                   MaterialPageRoute(
                       builder: (context) =>
                           ShareContactPage(contact: widget.contact)));
-
             },
             child: Text(
               StringApp.menu_share,
@@ -78,9 +69,14 @@ class _DetailContactPageState extends State<DetailContactPage> {
       ),
       body: FutureBuilder(
         future: DatabaseApp.getContactById(widget.id),
-        builder:(context, snap){
+        builder: (context, snap) {
           if (snap.hasData) {
             widget.contact = snap.data;
+            widget.iconFavourite = widget.contact.favourite == 0
+                ? Icon(Icons.star_border)
+                : Icon(Icons.star);
+            widget.iconColor =
+                widget.contact.favourite == 0 ? Colors.grey : Colors.orange;
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -94,8 +90,9 @@ class _DetailContactPageState extends State<DetailContactPage> {
               ),
             );
           }
-          return Center(child: CircularProgressIndicator(),);
-
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );

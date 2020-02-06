@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -210,8 +208,7 @@ class DatabaseApp {
   static Future<bool> updateContact(Contact contact) async {
     final Database db = await getDatabaseApp();
     //print(contact);
-    final String sql =
-        "UPDATE Contacts SET "
+    final String sql = "UPDATE Contacts SET "
         "name = '${contact.name}',"
         " phone = '${contact.phone}',"
         " gusto = '${contact.gusto}',"
@@ -227,8 +224,8 @@ class DatabaseApp {
         " instagram = '${contact.instagram}',"
         " linkedin = '${contact.linkedin}',"
         " tumblr = '${contact.tumblr}'"
-           " WHERE id = ${contact.id}";
-   // print(sql);
+        " WHERE id = ${contact.id}";
+    // print(sql);
     final update = await db.rawUpdate(sql);
     if (update >= 1) {
       return true;

@@ -1,4 +1,4 @@
-class StringApp{
+class StringApp {
   static const app_title = "Smart Contact";
   static const tab_contact = "Mọi người";
   static const tab_favourite = "Yêu thích";
@@ -39,8 +39,8 @@ class StringApp{
   static const btn_back = "Quay lại";
   static const btn_delete = "XÓA BỎ LIÊN HỆ";
   static const content_qr_code = "Mã chia sẻ của bạn đã được tạo!";
-  static const favourite_on="Đã thêm vào danh sách yêu thích!";
-  static const favourite_off="Đã xóa khỏi danh sách yêu thích!";
+  static const favourite_on = "Đã thêm vào danh sách yêu thích!";
+  static const favourite_off = "Đã xóa khỏi danh sách yêu thích!";
   static const number_exits = "Số điện thoại đã tồn tại!";
   static const update = "CẬP NHẬT THAY THẾ";
   static const update_ok = "CẬP NHẬT THÀNH CÔNG!";

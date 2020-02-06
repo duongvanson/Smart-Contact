@@ -60,7 +60,6 @@ class _HomePageState extends State<HomePage>
                               builder: (context) => AddContactPage(
                                     person: false,
                                   )));
-                     
                     })
                 : Container(),
             widget.tabSlect == 0
@@ -71,18 +70,21 @@ class _HomePageState extends State<HomePage>
                     })
                 : Container(),
             widget.tabSlect == 2
-                ? IconButton(icon: Icon(Icons.share), onPressed: () async {
-                  Contact person = await DatabaseApp.getPersonContact();
-                  if (person == null) {
-                    _showNoti("Vui lòng cập nhật hồ sơ của bạn!", 3, ColorApp.main_color);
-                    return;
-                  }
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ShareContactPage(contact: person)));
-            })
+                ? IconButton(
+                    icon: Icon(Icons.share),
+                    onPressed: () async {
+                      Contact person = await DatabaseApp.getPersonContact();
+                      if (person == null) {
+                        _showNoti("Vui lòng cập nhật hồ sơ của bạn!", 3,
+                            ColorApp.main_color);
+                        return;
+                      }
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ShareContactPage(contact: person)));
+                    })
                 : Container(),
           ],
           title: Text(StringApp.app_title),
@@ -116,10 +118,10 @@ class _HomePageState extends State<HomePage>
     try {
       String data = await Scanner.scan();
       var contact;
-      try{
+      try {
         print(data);
-         contact = Contact.fromJSon(json.decode(data));
-      }catch(ex){
+        contact = Contact.fromJSon(json.decode(data));
+      } catch (ex) {
         _showNoti("Mã chia sẻ không hợp lệ!", 3, Colors.red);
         return;
       }
@@ -133,9 +135,9 @@ class _HomePageState extends State<HomePage>
             label: StringApp.update,
             onPressed: () async {
               if (await DatabaseApp.updateContactExits(contact)) {
-                _showNoti(StringApp.update_ok, 3,ColorApp.main_color);
+                _showNoti(StringApp.update_ok, 3, ColorApp.main_color);
               } else {
-                _showNoti(StringApp.update_fail, 3,Colors.red);
+                _showNoti(StringApp.update_fail, 3, Colors.red);
               }
             },
             textColor: Colors.orange,

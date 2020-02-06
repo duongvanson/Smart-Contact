@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
@@ -8,7 +6,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class ShareContactPage extends StatelessWidget {
   Contact contact;
+
   ShareContactPage({this.contact});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +26,10 @@ class ShareContactPage extends StatelessWidget {
                 size: 250.0,
               ),
             ),
-            Text(contact.name, style: StyleApp.style_avatar,),
+            Text(
+              contact.name,
+              style: StyleApp.style_avatar,
+            ),
             Text(StringApp.content_qr_code),
           ],
         ),

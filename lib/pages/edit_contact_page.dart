@@ -9,13 +9,14 @@ import 'package:flutter/material.dart';
 class EditContactPage extends StatefulWidget {
   Contact contact;
   String _subName = "admin";
+
   EditContactPage({this.contact});
+
   @override
   _EditContactPageState createState() => _EditContactPageState();
 }
 
 class _EditContactPageState extends State<EditContactPage> {
-
   final _keySoaffold = GlobalKey<ScaffoldState>();
   DateTime selectedDate = DateTime.now();
 
@@ -30,6 +31,7 @@ class _EditContactPageState extends State<EditContactPage> {
         selectedDate = picked;
       });
   }
+
   TextEditingController _ctrlName = TextEditingController(text: "");
   TextEditingController _ctrlGender = TextEditingController();
   TextEditingController _ctrlAddress = TextEditingController();
@@ -45,11 +47,14 @@ class _EditContactPageState extends State<EditContactPage> {
   TextEditingController _ctrlInstagram = TextEditingController();
   TextEditingController _ctrlLinkedin = TextEditingController();
   TextEditingController _ctrlTumblr = TextEditingController();
+
   @override
   void initState() {
-    if (widget.contact!=null) {
+    if (widget.contact != null) {
       _ctrlName.text = widget._subName = widget.contact.name;
-      _ctrlGender.text = widget.contact.gender==0?"Nam":widget.contact.gender==1?"Nữ":"";
+      _ctrlGender.text = widget.contact.gender == 0
+          ? "Nam"
+          : widget.contact.gender == 1 ? "Nữ" : "";
       _ctrlAddress.text = widget.contact.address;
       selectedDate = widget.contact.birthday;
       _ctrlPhone.text = widget.contact.phone;
@@ -66,6 +71,7 @@ class _EditContactPageState extends State<EditContactPage> {
     }
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     _ctrlBir.text = selectedDate.toLocal().toString().split(' ')[0];
@@ -88,6 +94,7 @@ class _EditContactPageState extends State<EditContactPage> {
       ),
     );
   }
+
   Widget _avatar() {
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -106,6 +113,7 @@ class _EditContactPageState extends State<EditContactPage> {
       ),
     );
   }
+
   Widget _infoIndex() {
     return Container(
       padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -121,7 +129,7 @@ class _EditContactPageState extends State<EditContactPage> {
             child: TextField(
               controller: _ctrlName,
               decoration: InputDecoration(
-                //hintText: title,
+                  //hintText: title,
                   labelText: StringApp.name,
                   labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
               onChanged: (name) {
@@ -137,6 +145,7 @@ class _EditContactPageState extends State<EditContactPage> {
       ),
     );
   }
+
   Widget _infoDetail() {
     return Container(
         padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -151,7 +160,7 @@ class _EditContactPageState extends State<EditContactPage> {
               child: TextField(
                 controller: _ctrlBir,
                 decoration: InputDecoration(
-                  //hintText: StringApp.birthday,
+                    //hintText: StringApp.birthday,
                     labelText: StringApp.birthday,
                     labelStyle: TextStyle(fontSize: 20, color: Colors.teal),
                     suffixIcon: IconButton(
@@ -165,6 +174,7 @@ class _EditContactPageState extends State<EditContactPage> {
           ],
         ));
   }
+
   Widget _infoSocial() {
     return Container(
       padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -186,12 +196,14 @@ class _EditContactPageState extends State<EditContactPage> {
       ),
     );
   }
+
   Widget _title(String title) {
     return Text(
       title,
       style: StyleApp.style_title,
     );
   }
+
   Widget _buttom() {
     return Container(
       padding: EdgeInsets.all(StyleApp.container_layout_padding),
@@ -207,6 +219,10 @@ class _EditContactPageState extends State<EditContactPage> {
         onPressed: () async {
           try {
             if (await _updatePersonal(context)) {
+              _keySoaffold.currentState.showSnackBar(SnackBar(
+                  backgroundColor: ColorApp.main_color,
+                  content: Text(StringApp.update_ok)));
+              await Future.delayed(Duration(milliseconds: 500));
               Navigator.pop(context);
             }
           } catch (ex) {
@@ -220,18 +236,20 @@ class _EditContactPageState extends State<EditContactPage> {
       ),
     );
   }
+
   Widget _lineInputString(String title, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          //hintText: title,
+            //hintText: title,
             labelText: title,
             labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
       ),
     );
   }
+
   Future<bool> _updatePersonal(BuildContext context) async {
     if (_ctrlName.text.trim().isEmpty) throw ("Vui lòng điền tên của bạn!");
     if (_ctrlPhone.text.trim().isEmpty) throw ("Vui lòng nhập số điện thoại!");
@@ -240,7 +258,7 @@ class _EditContactPageState extends State<EditContactPage> {
         _ctrlGender.text.trim().toLowerCase() != "nữ") {
       throw ("Giới tính là 'Nam' hoặc 'Nữ' hoặc bỏ trống!");
     }
-    DateTime dt = DateTime.parse(_ctrlBir.text);
+//    DateTime dt = DateTime.parse(_ctrlBir.text);
     Contact contact = Contact(
         widget.contact.id,
         _ctrlName.text.trim(),
