@@ -129,7 +129,7 @@ class Contact {
         ' telegram: $_telegram,'
         'instagram: $_instagram,'
         'linkedin: $_linkedin,'
-        ' tumblr: $_tumblr '
+        ' tumblr: $_tumblr,'
         'gusto: $_gusto,'
         ' favourite: $_favourite, '
         'person: $_person}';

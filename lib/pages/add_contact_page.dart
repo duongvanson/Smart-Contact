@@ -5,6 +5,7 @@ import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class AddContactPage extends StatefulWidget {
@@ -107,6 +108,9 @@ class _AddContactPageState extends State<AddContactPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: TextField(
+        inputFormatters: <TextInputFormatter>[
+          BlacklistingTextInputFormatter.singleLineFormatter
+        ],
         controller: controller,
         decoration: InputDecoration(
             //hintText: title,
@@ -201,7 +205,20 @@ class _AddContactPageState extends State<AddContactPage> {
               },
             ),
           ),
-          _lineInputString(StringApp.phone, _ctrlPhone),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: TextField(
+              inputFormatters: <TextInputFormatter>[
+                WhitelistingTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10)
+              ],
+              controller: _ctrlPhone,
+              decoration: InputDecoration(
+                  //hintText: title,
+                  labelText: StringApp.phone,
+                  labelStyle: TextStyle(fontSize: 18, color: Colors.teal)),
+            ),
+          ),
           _lineInputString(StringApp.gusto, _ctrlGusto),
         ],
       ),

@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage>
       String data = await Scanner.scan();
       var contact;
       try {
-        print(data);
+        // print(data);
         contact = Contact.fromJSon(json.decode(data));
       } catch (ex) {
         _showNoti("Mã chia sẻ không hợp lệ!", 3, Colors.red);

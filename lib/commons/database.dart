@@ -194,8 +194,11 @@ class DatabaseApp {
   }
 
   static Future<bool> updateContactExits(Contact contact) async {
+    //print(contact.phone);
     final Database db = await getDatabaseApp();
-    final del = await db.delete("contacts", where: "phone == ${contact.phone}");
+    final del =
+        await db.delete("contacts", where: "phone = '${contact.phone}'");
+    print(del);
     if (del >= 1) {
       if (await insertContact(contact))
         return true;
