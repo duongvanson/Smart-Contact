@@ -4,8 +4,8 @@ import 'package:fa_smart_contact/commons/sizes.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/commons/styles.dart';
 import 'package:fa_smart_contact/models/contact.dart';
-import 'package:fa_smart_contact/pages/add_contact_page.dart';
-import 'package:fa_smart_contact/pages/edit_contact_page.dart';
+import 'package:fa_smart_contact/pages/add_contact.dart';
+import 'package:fa_smart_contact/pages/edit_contact.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 

@@ -4,11 +4,11 @@ import 'package:fa_smart_contact/commons/colors.dart';
 import 'package:fa_smart_contact/commons/database.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/models/contact.dart';
-import 'package:fa_smart_contact/pages/add_contact_page.dart';
-import 'package:fa_smart_contact/pages/contact_page.dart';
-import 'package:fa_smart_contact/pages/favourite_page.dart';
-import 'package:fa_smart_contact/pages/personal_page.dart';
-import 'package:fa_smart_contact/pages/share_contact_page.dart';
+import 'package:fa_smart_contact/pages/add_contact.dart';
+import 'package:fa_smart_contact/pages/contact.dart';
+import 'package:fa_smart_contact/pages/favourite.dart';
+import 'package:fa_smart_contact/pages/personal.dart';
+import 'package:fa_smart_contact/pages/share_contact.dart';
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
 

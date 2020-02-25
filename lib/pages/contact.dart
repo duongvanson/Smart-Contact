@@ -2,22 +2,26 @@ import 'package:fa_smart_contact/commons/colors.dart';
 import 'package:fa_smart_contact/commons/database.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
 import 'package:fa_smart_contact/models/contact.dart';
-import 'package:fa_smart_contact/pages/detail_contact_page.dart';
+import 'package:fa_smart_contact/pages/detail_contact.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class FavouritePage extends StatelessWidget {
+class ContactPage extends StatelessWidget {
+  ContactPage();
+
   List<Widget> listSocial = List();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: DatabaseApp.getListFavouriteContact(),
+        future: DatabaseApp.getListContact(),
         builder: (context, snapshot) {
           List<Contact> contacts;
           if (snapshot.hasData) {
             contacts = snapshot.data as List<Contact>;
+            //print(contacts);
             if (contacts.length == 0) {
               return Center(
                 child: Column(
@@ -28,7 +32,7 @@ class FavouritePage extends StatelessWidget {
                       color: ColorApp.main_color,
                       size: 38,
                     ),
-                    Text(StringApp.content_null_favourite),
+                    Text(StringApp.content_null_contact),
                   ],
                 ),
               );
@@ -98,7 +102,7 @@ class FavouritePage extends StatelessWidget {
               );
             }
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),

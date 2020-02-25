@@ -1,6 +1,6 @@
 import 'package:fa_smart_contact/commons/colors.dart';
 import 'package:fa_smart_contact/commons/strings.dart';
-import 'package:fa_smart_contact/pages/home_page.dart';
+import 'package:fa_smart_contact/pages/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
