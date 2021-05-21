@@ -319,7 +319,7 @@ class _DetailContactPageState extends State<DetailContactPage> {
   Widget _layoutDetail() {
     widget.listDetail.clear();
     widget.listDetail.add(_title(StringApp.title_info));
-    _checkDetail(widget.contact.birthday.toUtc().toString().split(' ')[0],
+    _checkDetail(widget.contact.birthday.toLocal().toString().split(' ')[0],
         StringApp.birthday);
     _checkDetail(
         widget.contact.gender == 0
